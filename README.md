@@ -1,2 +1,2 @@
 # stm32-sys-file
-bit band operation For STM32F4
+bit band operation For STM32F4/F1
