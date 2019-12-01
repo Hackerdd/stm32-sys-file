@@ -7,7 +7,7 @@
 	Subject             :bit band operation For STM32F4
                           add cycle_increase()
 
-	Current Version     :V1.9.0
+	Current Version     :V1.9.1
 	Author              :Hacker
 	Date                :2018.12.04
 
@@ -273,7 +273,7 @@
 
 
 #define map(x, in_min, in_max, out_min, out_max) \
-  (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
+  ((x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min)
 
 #define cycle_increase(a, b) a=(a+1)%(b)
     
