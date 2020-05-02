@@ -1,220 +1,93 @@
 /***
-	Copyright (c) 2018
+	Copyright (c) 2019
 	All rights reserved.
 
-	File name           :sys.h
+	File name           :sys_file.h
 	file identification :
-	Subject             :bit band operation For STM32F4
-                          add cycle_increase()
+	Subject             :Say something about the file
 
-	Current Version     :V1.9.1
+	Current Version     :V2.0.0
 	Author              :Hacker
-	Date                :2018.12.04
+	Date                :
 
 	Instead Version     :
 	Author              :Hacker
 	Date                :
 ***/
+#ifndef __SYS_FILE_H
+#define __SYS_FILE_H value
 
-#ifndef __SYS_H
-#define __SYS_H
+#include <main.h>
 
-	 
-//For F4xx
-#ifdef USE_STM32F4xx	 
-	#include "stm32f4xx_hal.h" 
+#define BITBAND(addr, bitnum) ((addr & 0xF0000000)+0x2000000+((addr &0xFFFFF)<<5)+(bitnum<<2)) 
+#define MEM_ADDR(addr)  *((volatile unsigned long  *)(addr)) 
+#define BIT_ADDR(addr, bitnum)   MEM_ADDR(BITBAND(addr, bitnum)) 
+#define bit_read_write(data, bit) BIT_ADDR((unsigned long)(&data), bit)
 
-	#define GPIOA_ODR_Addr    (GPIOA_BASE+20) //0x40020014
-	#define GPIOB_ODR_Addr    (GPIOB_BASE+20) //0x40020414 
-	#define GPIOC_ODR_Addr    (GPIOC_BASE+20) //0x40020814 
-	#define GPIOD_ODR_Addr    (GPIOD_BASE+20) //0x40020C14 
-	#define GPIOE_ODR_Addr    (GPIOE_BASE+20) //0x40021014 
-	#define GPIOF_ODR_Addr    (GPIOF_BASE+20) //0x40021414    
-	#define GPIOG_ODR_Addr    (GPIOG_BASE+20) //0x40021814   
-	#define GPIOH_ODR_Addr    (GPIOH_BASE+20) //0x40021C14    
-	#define GPIOI_ODR_Addr    (GPIOI_BASE+20) //0x40022014     
+#ifdef USE_STM32F1xx	
 
-	#define GPIOA_IDR_Addr    (GPIOA_BASE+16) //0x40020010 
-	#define GPIOB_IDR_Addr    (GPIOB_BASE+16) //0x40020410 
-	#define GPIOC_IDR_Addr    (GPIOC_BASE+16) //0x40020810 
-	#define GPIOD_IDR_Addr    (GPIOD_BASE+16) //0x40020C10 
-	#define GPIOE_IDR_Addr    (GPIOE_BASE+16) //0x40021010 
-	#define GPIOF_IDR_Addr    (GPIOF_BASE+16) //0x40021410 
-	#define GPIOG_IDR_Addr    (GPIOG_BASE+16) //0x40021810 
-	#define GPIOH_IDR_Addr    (GPIOH_BASE+16) //0x40021C10 
-	#define GPIOI_IDR_Addr    (GPIOI_BASE+16) //0x40022010 
+#define PA_L8_MODE(n)   BIT_ADDR(&(GPIOA->CRL),n*4)  //1:OUTPUT MODE;0:INTPUT MODE 
+#define PB_L8_MODE(n)   BIT_ADDR(&(GPIOB->CRL),n*4)  //1:OUTPUT MODE;0:INTPUT MODE 
+#define PC_L8_MODE(n)   BIT_ADDR(&(GPIOC->CRL),n*4)  //1:OUTPUT MODE;0:INTPUT MODE 
+#define PD_L8_MODE(n)   BIT_ADDR(&(GPIOD->CRL),n*4)  //1:OUTPUT MODE;0:INTPUT MODE 
+#define PE_L8_MODE(n)   BIT_ADDR(&(GPIOE->CRL),n*4)  //1:OUTPUT MODE;0:INTPUT MODE 
+#define PF_L8_MODE(n)   BIT_ADDR(&(GPIOF->CRL),n*4)  //1:OUTPUT MODE;0:INTPUT MODE 
+#define PH_L8_MODE(n)   BIT_ADDR(&(GPIOH->CRL),n*4)  //1:OUTPUT MODE;0:INTPUT MODE 
+#define PI_L8_MODE(n)   BIT_ADDR(&(GPIOI->CRL),n*4)  //1:OUTPUT MODE;0:INTPUT MODE 
 
-	#define GPIOA_MODER_Addr    (GPIOA_BASE)  //0x40020000
-	#define GPIOB_MODER_Addr    (GPIOB_BASE)
-	#define GPIOC_MODER_Addr    (GPIOC_BASE)
-	#define GPIOD_MODER_Addr    (GPIOD_BASE)
-	#define GPIOE_MODER_Addr    (GPIOE_BASE)
-	#define GPIOF_MODER_Addr    (GPIOF_BASE)
-	#define GPIOG_MODER_Addr    (GPIOG_BASE)
-	#define GPIOH_MODER_Addr    (GPIOH_BASE)
-	#define GPIOI_MODER_Addr    (GPIOI_BASE)
+#define PA_H8_MODE(n)   BIT_ADDR(&(GPIOA->CRH),n*4)  //1:OUTPUT MODE;0:INTPUT MODE 
+#define PB_H8_MODE(n)   BIT_ADDR(&(GPIOB->CRH),n*4)  //1:OUTPUT MODE;0:INTPUT MODE 
+#define PC_H8_MODE(n)   BIT_ADDR(&(GPIOC->CRH),n*4)  //1:OUTPUT MODE;0:INTPUT MODE 
+#define PD_H8_MODE(n)   BIT_ADDR(&(GPIOD->CRH),n*4)  //1:OUTPUT MODE;0:INTPUT MODE 
+#define PE_H8_MODE(n)   BIT_ADDR(&(GPIOE->CRH),n*4)  //1:OUTPUT MODE;0:INTPUT MODE 
+#define PF_H8_MODE(n)   BIT_ADDR(&(GPIOF->CRH),n*4)  //1:OUTPUT MODE;0:INTPUT MODE 
+#define PH_H8_MODE(n)   BIT_ADDR(&(GPIOH->CRH),n*4)  //1:OUTPUT MODE;0:INTPUT MODE 
+#define PI_H8_MODE(n)   BIT_ADDR(&(GPIOI->CRH),n*4)  //1:OUTPUT MODE;0:INTPUT MODE 
 
-/***************************************************/
-	#define BITBAND(addr, bitnum) ((addr & 0xF0000000)+0x2000000+((addr &0xFFFFF)<<5)+(bitnum<<2)) 
-	#define MEM_ADDR(addr)  *((volatile unsigned long  *)(addr)) 
-	#define BIT_ADDR(addr, bitnum)   MEM_ADDR(BITBAND(addr, bitnum)) 
+#else
 
+#define PAMODE(n)   BIT_ADDR(&(GPIOA->MODER),n*2)  //1:OUTPUT MODE;0:INTPUT MODE 
+#define PBMODE(n)   BIT_ADDR(&(GPIOB->MODER),n*2)  //1:OUTPUT MODE;0:INTPUT MODE 
+#define PCMODE(n)   BIT_ADDR(&(GPIOC->MODER),n*2)  //1:OUTPUT MODE;0:INTPUT MODE 
+#define PDMODE(n)   BIT_ADDR(&(GPIOD->MODER),n*2)  //1:OUTPUT MODE;0:INTPUT MODE 
+#define PEMODE(n)   BIT_ADDR(&(GPIOE->MODER),n*2)  //1:OUTPUT MODE;0:INTPUT MODE 
+#define PFMODE(n)   BIT_ADDR(&(GPIOF->MODER),n*2)  //1:OUTPUT MODE;0:INTPUT MODE 
+#define PHMODE(n)   BIT_ADDR(&(GPIOH->MODER),n*2)  //1:OUTPUT MODE;0:INTPUT MODE 
+#define PIMODE(n)   BIT_ADDR(&(GPIOI->MODER),n*2)  //1:OUTPUT MODE;0:INTPUT MODE 
 
+#endif
+/**
+ * [PAout description]
+ * @param  n [0-15]
+ * @return   [none]
+ * EG:  PAout(1) = 1;//set PA1 to HIGH
+ * 		PAout(1) = 0;//set PA1 to LOW
+ */
+#define PAout(n)   BIT_ADDR(&(GPIOA->ODR),n)  //OUTPUT 
+#define PBout(n)   BIT_ADDR(&(GPIOB->ODR),n)  //OUTPUT 
+#define PCout(n)   BIT_ADDR(&(GPIOC->ODR),n)  //OUTPUT 
+#define PDout(n)   BIT_ADDR(&(GPIOD->ODR),n)  //OUTPUT 
+#define PEout(n)   BIT_ADDR(&(GPIOE->ODR),n)  //OUTPUT 
+#define PFout(n)   BIT_ADDR(&(GPIOF->ODR),n)  //OUTPUT 
+#define PGout(n)   BIT_ADDR(&(GPIOG->ODR),n)  //OUTPUT 
+#define PHout(n)   BIT_ADDR(&(GPIOH->ODR),n)  //OUTPUT 
+#define PIout(n)   BIT_ADDR(&(GPIOI->ODR),n)  //OUTPUT
 
-	#define PAMODE(n)   BIT_ADDR(GPIOA_MODER_Addr,n*2)  //1:OUTPUT MODE;0:INTPUT MODE 
-	#define PBMODE(n)   BIT_ADDR(GPIOB_MODER_Addr,n*2)  //1:OUTPUT MODE;0:INTPUT MODE 
-	#define PCMODE(n)   BIT_ADDR(GPIOC_MODER_Addr,n*2)  //1:OUTPUT MODE;0:INTPUT MODE 
-	#define PDMODE(n)   BIT_ADDR(GPIOD_MODER_Addr,n*2)  //1:OUTPUT MODE;0:INTPUT MODE 
-	#define PEMODE(n)   BIT_ADDR(GPIOE_MODER_Addr,n*2)  //1:OUTPUT MODE;0:INTPUT MODE 
-	#define PFMODE(n)   BIT_ADDR(GPIOF_MODER_Addr,n*2)  //1:OUTPUT MODE;0:INTPUT MODE 
-	#define PGMODE(n)   BIT_ADDR(GPIOG_MODER_Addr,n*2)  //1:OUTPUT MODE;0:INTPUT MODE 
-	#define PHMODE(n)   BIT_ADDR(GPIOH_MODER_Addr,n*2)  //1:OUTPUT MODE;0:INTPUT MODE 
-	#define PIMODE(n)   BIT_ADDR(GPIOI_MODER_Addr,n*2)  //1:OUTPUT MODE;0:INTPUT MODE 
-
-	#define bit_read_write(data, bit) BIT_ADDR((unsigned long)(&data), bit)
-
-	/**
-	 * [PAout description]
-	 * @param  n [0-15]
-	 * @return   [none]
-	 * EG:  PAout(1) = 1;//set PA1 to HIGH
-	 * 		PAout(1) = 0;//set PA1 to LOW
-	 */
-	#define PAout(n)   BIT_ADDR(GPIOA_ODR_Addr,n)  //OUTPUT 
-	#define PBout(n)   BIT_ADDR(GPIOB_ODR_Addr,n)  //OUTPUT 
-	#define PCout(n)   BIT_ADDR(GPIOC_ODR_Addr,n)  //OUTPUT 
-	#define PDout(n)   BIT_ADDR(GPIOD_ODR_Addr,n)  //OUTPUT 
-	#define PEout(n)   BIT_ADDR(GPIOE_ODR_Addr,n)  //OUTPUT 
-	#define PFout(n)   BIT_ADDR(GPIOF_ODR_Addr,n)  //OUTPUT 
-	#define PGout(n)   BIT_ADDR(GPIOG_ODR_Addr,n)  //OUTPUT 
-	#define PHout(n)   BIT_ADDR(GPIOH_ODR_Addr,n)  //OUTPUT 
-	#define PIout(n)   BIT_ADDR(GPIOI_ODR_Addr,n)  //OUTPUT
-
-	/**
-	 * [PAin description]
-	 * @param  n [0-15]
-	 * @return   [none]
-	 * EG:  a = PAin(1);//set PA1 bit to value a
-	 */
-	#define PAin(n)    BIT_ADDR(GPIOA_IDR_Addr,n)  //输入 
-	#define PBin(n)    BIT_ADDR(GPIOB_IDR_Addr,n)  //输入 
-	#define PCin(n)    BIT_ADDR(GPIOC_IDR_Addr,n)  //输入 
-	#define PDin(n)    BIT_ADDR(GPIOD_IDR_Addr,n)  //输入 
-	#define PEin(n)    BIT_ADDR(GPIOE_IDR_Addr,n)  //输入
-	#define PFin(n)    BIT_ADDR(GPIOF_IDR_Addr,n)  //输入
-	#define PGin(n)    BIT_ADDR(GPIOG_IDR_Addr,n)  //输入
-	#define PHin(n)    BIT_ADDR(GPIOH_IDR_Addr,n)  //输入
-	#define PIin(n)    BIT_ADDR(GPIOI_IDR_Addr,n)  //输入
-
-#endif																	    
-
-/***************************************************/
-
-
-//For F1xx
-#ifdef USE_STM32F1xx	 
-	#include "stm32f1xx_hal.h" 
-
-	#define GPIOA_ODR_Addr    (GPIOA_BASE+12) //0x4001080C 
-	#define GPIOB_ODR_Addr    (GPIOB_BASE+12) //0x40010C0C 
-	#define GPIOC_ODR_Addr    (GPIOC_BASE+12) //0x4001100C 
-	#define GPIOD_ODR_Addr    (GPIOD_BASE+12) //0x4001140C 
-	#define GPIOE_ODR_Addr    (GPIOE_BASE+12) //0x4001180C 
-	#define GPIOF_ODR_Addr    (GPIOF_BASE+12) //0x40011A0C    
-	#define GPIOG_ODR_Addr    (GPIOG_BASE+12) //0x40011E0C    
-
-	#define GPIOA_IDR_Addr    (GPIOA_BASE+8) //0x40010808 
-	#define GPIOB_IDR_Addr    (GPIOB_BASE+8) //0x40010C08 
-	#define GPIOC_IDR_Addr    (GPIOC_BASE+8) //0x40011008 
-	#define GPIOD_IDR_Addr    (GPIOD_BASE+8) //0x40011408 
-	#define GPIOE_IDR_Addr    (GPIOE_BASE+8) //0x40011808 
-	#define GPIOF_IDR_Addr    (GPIOF_BASE+8) //0x40011A08 
-	#define GPIOG_IDR_Addr    (GPIOG_BASE+8) //0x40011E08 
-
-	#define GPIOA_MODER_Addr    (GPIOA_BASE)  //0x40020000
-	#define GPIOB_MODER_Addr    (GPIOB_BASE)
-	#define GPIOC_MODER_Addr    (GPIOC_BASE)
-	#define GPIOD_MODER_Addr    (GPIOD_BASE)
-	#define GPIOE_MODER_Addr    (GPIOE_BASE)
-	#define GPIOF_MODER_Addr    (GPIOF_BASE)
-	#define GPIOG_MODER_Addr    (GPIOG_BASE)
-	#define GPIOH_MODER_Addr    (GPIOH_BASE)
-	#define GPIOI_MODER_Addr    (GPIOI_BASE)
-
-	#define PA_LOW_MODE(n)   BIT_ADDR(GPIOA_MODER_Addr,n*4)  //1:OUTPUT MODE;0:INTPUT MODE 
-	#define PB_LOW_MODE(n)   BIT_ADDR(GPIOB_MODER_Addr,n*4)  //1:OUTPUT MODE;0:INTPUT MODE 
-	#define PC_LOW_MODE(n)   BIT_ADDR(GPIOC_MODER_Addr,n*4)  //1:OUTPUT MODE;0:INTPUT MODE 
-	#define PD_LOW_MODE(n)   BIT_ADDR(GPIOD_MODER_Addr,n*4)  //1:OUTPUT MODE;0:INTPUT MODE 
-	#define PE_LOW_MODE(n)   BIT_ADDR(GPIOE_MODER_Addr,n*4)  //1:OUTPUT MODE;0:INTPUT MODE 
-	#define PF_LOW_MODE(n)   BIT_ADDR(GPIOF_MODER_Addr,n*4)  //1:OUTPUT MODE;0:INTPUT MODE 
-	#define PG_LOW_MODE(n)   BIT_ADDR(GPIOG_MODER_Addr,n*4)  //1:OUTPUT MODE;0:INTPUT MODE 
-	#define PH_LOW_MODE(n)   BIT_ADDR(GPIOH_MODER_Addr,n*4)  //1:OUTPUT MODE;0:INTPUT MODE 
-	#define PI_LOW_MODE(n)   BIT_ADDR(GPIOI_MODER_Addr,n*4)  //1:OUTPUT MODE;0:INTPUT MODE 
-
-	#define PA_HIGH_MODE(n)   BIT_ADDR(GPIOA_MODER_Addr+4,n*4)  //1:OUTPUT MODE;0:INTPUT MODE 
-	#define PB_HIGH_MODE(n)   BIT_ADDR(GPIOB_MODER_Addr+4,n*4)  //1:OUTPUT MODE;0:INTPUT MODE 
-	#define PC_HIGH_MODE(n)   BIT_ADDR(GPIOC_MODER_Addr+4,n*4)  //1:OUTPUT MODE;0:INTPUT MODE 
-	#define PD_HIGH_MODE(n)   BIT_ADDR(GPIOD_MODER_Addr+4,n*4)  //1:OUTPUT MODE;0:INTPUT MODE 
-	#define PE_HIGH_MODE(n)   BIT_ADDR(GPIOE_MODER_Addr+4,n*4)  //1:OUTPUT MODE;0:INTPUT MODE 
-	#define PF_HIGH_MODE(n)   BIT_ADDR(GPIOF_MODER_Addr+4,n*4)  //1:OUTPUT MODE;0:INTPUT MODE 
-	#define PG_HIGH_MODE(n)   BIT_ADDR(GPIOG_MODER_Addr+4,n*4)  //1:OUTPUT MODE;0:INTPUT MODE 
-	#define PH_HIGH_MODE(n)   BIT_ADDR(GPIOH_MODER_Addr+4,n*4)  //1:OUTPUT MODE;0:INTPUT MODE 
-	#define PI_HIGH_MODE(n)   BIT_ADDR(GPIOI_MODER_Addr+4,n*4)  //1:OUTPUT MODE;0:INTPUT MODE 
-
-	/***************************************************/
-	
-	#define BITBAND(addr, bitnum) ((addr & 0xF0000000)+0x2000000+((addr &0xFFFFF)<<5)+(bitnum<<2)) 
-	#define MEM_ADDR(addr)  *((volatile unsigned long  *)(addr)) 
-	#define BIT_ADDR(addr, bitnum)   MEM_ADDR(BITBAND(addr, bitnum)) 
-
-
-
-	#define PAMODE(n)   BIT_ADDR(GPIOA_MODER_Addr,n*2)  //1:OUTPUT MODE;0:INTPUT MODE 
-	#define PBMODE(n)   BIT_ADDR(GPIOB_MODER_Addr,n*2)  //1:OUTPUT MODE;0:INTPUT MODE 
-	#define PCMODE(n)   BIT_ADDR(GPIOC_MODER_Addr,n*2)  //1:OUTPUT MODE;0:INTPUT MODE 
-	#define PDMODE(n)   BIT_ADDR(GPIOD_MODER_Addr,n*2)  //1:OUTPUT MODE;0:INTPUT MODE 
-	#define PEMODE(n)   BIT_ADDR(GPIOE_MODER_Addr,n*2)  //1:OUTPUT MODE;0:INTPUT MODE 
-	#define PFMODE(n)   BIT_ADDR(GPIOF_MODER_Addr,n*2)  //1:OUTPUT MODE;0:INTPUT MODE 
-	#define PGMODE(n)   BIT_ADDR(GPIOG_MODER_Addr,n*2)  //1:OUTPUT MODE;0:INTPUT MODE 
-	#define PHMODE(n)   BIT_ADDR(GPIOH_MODER_Addr,n*2)  //1:OUTPUT MODE;0:INTPUT MODE 
-	#define PIMODE(n)   BIT_ADDR(GPIOI_MODER_Addr,n*2)  //1:OUTPUT MODE;0:INTPUT MODE 
-
-	#define bit_read_write(data, bit) BIT_ADDR((unsigned long)(&data), bit)
-
-	/**
-	 * [PAout description]
-	 * @param  n [0-15]
-	 * @return   [none]
-	 * EG:  PAout(1) = 1;//set PA1 to HIGH
-	 * 		PAout(1) = 0;//set PA1 to LOW
-	 */
-	#define PAout(n)   BIT_ADDR(GPIOA_ODR_Addr,n)  //OUTPUT 
-	#define PBout(n)   BIT_ADDR(GPIOB_ODR_Addr,n)  //OUTPUT 
-	#define PCout(n)   BIT_ADDR(GPIOC_ODR_Addr,n)  //OUTPUT 
-	#define PDout(n)   BIT_ADDR(GPIOD_ODR_Addr,n)  //OUTPUT 
-	#define PEout(n)   BIT_ADDR(GPIOE_ODR_Addr,n)  //OUTPUT 
-	#define PFout(n)   BIT_ADDR(GPIOF_ODR_Addr,n)  //OUTPUT 
-	#define PGout(n)   BIT_ADDR(GPIOG_ODR_Addr,n)  //OUTPUT 
-	#define PHout(n)   BIT_ADDR(GPIOH_ODR_Addr,n)  //OUTPUT 
-	#define PIout(n)   BIT_ADDR(GPIOI_ODR_Addr,n)  //OUTPUT
-
-	/**
-	 * [PAin description]
-	 * @param  n [0-15]
-	 * @return   [none]
-	 * EG:  a = PAin(1);//set PA1 bit to value a
-	 */
-	#define PAin(n)    BIT_ADDR(GPIOA_IDR_Addr,n)  //输入 
-	#define PBin(n)    BIT_ADDR(GPIOB_IDR_Addr,n)  //输入 
-	#define PCin(n)    BIT_ADDR(GPIOC_IDR_Addr,n)  //输入 
-	#define PDin(n)    BIT_ADDR(GPIOD_IDR_Addr,n)  //输入 
-	#define PEin(n)    BIT_ADDR(GPIOE_IDR_Addr,n)  //输入
-	#define PFin(n)    BIT_ADDR(GPIOF_IDR_Addr,n)  //输入
-	#define PGin(n)    BIT_ADDR(GPIOG_IDR_Addr,n)  //输入
-	#define PHin(n)    BIT_ADDR(GPIOH_IDR_Addr,n)  //输入
-	#define PIin(n)    BIT_ADDR(GPIOI_IDR_Addr,n)  //输入
-
-#endif																	    
+/**
+ * [PAin description]
+ * @param  n [0-15]
+ * @return   [none]
+ * EG:  a = PAin(1);//get PA1 bit to value a
+ */
+#define PAin(n)    BIT_ADDR(&(GPIOA->IDR),n)  //输入 
+#define PBin(n)    BIT_ADDR(&(GPIOB->IDR),n)  //输入 
+#define PCin(n)    BIT_ADDR(&(GPIOC->IDR),n)  //输入 
+#define PDin(n)    BIT_ADDR(&(GPIOD->IDR),n)  //输入 
+#define PEin(n)    BIT_ADDR(&(GPIOE->IDR),n)  //输入
+#define PFin(n)    BIT_ADDR(&(GPIOF->IDR),n)  //输入
+#define PGin(n)    BIT_ADDR(&(GPIOG->IDR),n)  //输入
+#define PHin(n)    BIT_ADDR(&(GPIOH->IDR),n)  //输入
+#define PIin(n)    BIT_ADDR(&(GPIOI->IDR),n)  //输入
 
 
 #define HIGH 0x1
@@ -238,11 +111,6 @@
 #define RISING 3
 
 
-// // undefine stdlib's abs if encountered
-// #ifndef abs
-// #undef abs
-// #endif
-
 #define min(a,b) ((a)<(b)?(a):(b))
 #define max(a,b) ((a)>(b)?(a):(b))
 // #define abs(x) ((x)>0?(x):-(x))
@@ -252,15 +120,8 @@
 #define degrees(rad) ((rad)*RAD_TO_DEG)
 #define sq(x) ((x)*(x))
 
-#define interrupts() sei()
-#define noInterrupts() cli()
-
-#define clockCyclesPerMicrosecond() ( F_CPU / 1000000L )
-#define clockCyclesToMicroseconds(a) ( (a) / clockCyclesPerMicrosecond() )
-#define microsecondsToClockCycles(a) ( (a) * clockCyclesPerMicrosecond() )
-
-#define lowByte(w) ((uint8_t) ((w) & 0xff))
-#define highByte(w) ((uint8_t) ((w) >> 8))
+#define low8Byte(w) ((uint8_t) ((w) & 0xff))
+#define high8Byte(w) ((uint8_t) ((w) >> 8))
 
 #define bitRead(value, bit) (((value) >> (bit)) & 0x01)
 #define bitSet(value, bit) ((value) |= (1UL << (bit)))
@@ -268,7 +129,7 @@
 #define bitWrite(value, bit, bitvalue) (bitvalue ? bitSet(value, bit) : bitClear(value, bit))
 #define bitToggle(value, bit) bitWrite(value, bit, !bitRead(value, bit))
 
-#define swap(a, b) { uint8_t t = a; a = b; b = t; }
+#define swap(a, b) { uint32_t t = a; a = b; b = t; }
 #define bit(b) (1UL << (b))
 
 
@@ -276,10 +137,7 @@
   ((x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min)
 
 #define cycle_increase(a, b) a=(a+1)%(b)
-    
-typedef unsigned char u8;
-typedef unsigned int u16;
-typedef unsigned long u32;
+
 
 #endif
 
