@@ -44,7 +44,7 @@
 #define PH_H8_MODE(n)   BIT_ADDR(&(GPIOH->CRH),n*4)  //1:OUTPUT MODE;0:INTPUT MODE 
 #define PI_H8_MODE(n)   BIT_ADDR(&(GPIOI->CRH),n*4)  //1:OUTPUT MODE;0:INTPUT MODE 
 
-#else
+#else if USE_STM32F4xx
 
 #define PAMODE(n)   BIT_ADDR(&(GPIOA->MODER),n*2)  //1:OUTPUT MODE;0:INTPUT MODE 
 #define PBMODE(n)   BIT_ADDR(&(GPIOB->MODER),n*2)  //1:OUTPUT MODE;0:INTPUT MODE 
@@ -138,6 +138,8 @@
 
 #define cycle_increase(a, b) a=(a+1)%(b)
 
+/* 向上取整 */
+#define CEIL_DIV(a, b) (((a)+(b)-1)/(b))
 
 #endif
 
